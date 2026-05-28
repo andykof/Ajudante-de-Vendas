@@ -41,6 +41,7 @@ export default function Copilot() {
   const [clientName, setClientName] = useState('');
   const [currentStage, setCurrentStage] = useState<Stage>('Não Definida');
   const [isLoading, setIsLoading] = useState(false);
+  const [serverStatus, setServerStatus] = useState<'checking' | 'online' | 'offline'>('checking');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -50,6 +51,23 @@ export default function Copilot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const res = await fetch('/api/health');
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          setServerStatus('online');
+        } else {
+          setServerStatus('offline');
+        }
+      } catch (error) {
+        setServerStatus('offline');
+      }
+    };
+    checkHealth();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -291,8 +309,17 @@ export default function Copilot() {
       {/* Footer Status */}
       <footer className="h-10 bg-slate-800 flex items-center px-4 md:px-8 text-white shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-          <span className="text-[10px] uppercase font-bold tracking-widest opacity-80">IA Conectada • Analisando fluxo Kazzas/Verus</span>
+          <div className={cn(
+            "w-2 h-2 rounded-full",
+            serverStatus === 'online' ? "bg-green-400 cursor-help" : 
+            serverStatus === 'offline' ? "bg-red-500 cursor-help" : 
+            "bg-yellow-400 animate-pulse"
+          )} title={serverStatus === 'offline' ? 'Erro: Falha ao acessar a API do servidor Node.js' : 'Sistema Online'}></div>
+          <span className="text-[10px] uppercase font-bold tracking-widest opacity-80">
+            {serverStatus === 'online' ? "IA Conectada • Analisando fluxo Kazzas/Verus" : 
+             serverStatus === 'offline' ? "Erro • Backend Desconectado" : 
+             "Conectando ao Servidor..."}
+          </span>
         </div>
         <div className="ml-auto text-[10px] font-bold opacity-50 uppercase tracking-widest hidden sm:block">
           Sinal padrão 6% aplicado • RAG v2.4

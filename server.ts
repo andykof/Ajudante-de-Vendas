@@ -49,6 +49,10 @@ async function startServer() {
 
   app.use(express.json());
 
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', message: 'Servidor Node.js está rodando corretamente.' });
+  });
+
   app.post('/api/analyze', async (req, res) => {
     try {
       const { clientMessage, stage, currentContext, clientName } = req.body;
