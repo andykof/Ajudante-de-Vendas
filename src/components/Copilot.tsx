@@ -81,6 +81,11 @@ export default function Copilot() {
         }),
       });
 
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") === -1) {
+        throw new Error("O servidor retornou uma resposta inválida (não-JSON). Isso geralmente significa que o backend Node.js não está rodando corretamente na sua hospedagem e está retornando a página HTML principal em vez da API.");
+      }
+
       const data = await response.json();
       
       if (!response.ok) throw new Error(data.error || 'Falha ao analisar a mensagem');
