@@ -1,0 +1,8 @@
+{
+  "name": "Ship It Apps",
+  "description": "Inteligência artificial de inside sales e co-piloto de conversão imobiliária.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
