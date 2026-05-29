@@ -276,6 +276,35 @@ export default function Copilot() {
                  </select>
                </div>
             </div>
+            
+            {/* Quick Templates */}
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Templates Rápidos:</span>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setInputVal((prev) => (prev ? prev + " | " : "") + "Oportunidade HIS: Cliente se enquadra na faixa de renda do programa. Como apresentar os benefícios e a facilidade de financiamento?")}
+                  className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-md border border-slate-200 transition-colors font-medium"
+                >
+                  Oportunidade HIS
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputVal((prev) => (prev ? prev + " | " : "") + "Quero fazer um convite atrativo para o cliente visitar nosso plantão de vendas e conhecer o decorado. Qual o melhor script?")}
+                  className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-md border border-slate-200 transition-colors font-medium"
+                >
+                  Convite para Visita
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputVal((prev) => (prev ? prev + " | " : "") + "O cliente visualizou e não respondeu ou parece estar com dúvidas. Como retomar o contato gerando valor sem parecer insistente?")}
+                  className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-md border border-slate-200 transition-colors font-medium"
+                >
+                  Acompanhamento de Dúvida
+                </button>
+              </div>
+            </div>
+
             <div className="flex gap-3 relative mt-1">
               <textarea
                 value={inputVal}
